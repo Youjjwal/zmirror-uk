@@ -1,11 +1,18 @@
-FROM dawn001/z_mirror:main
+# Base image
+FROM python:3.10
 
-WORKDIR /usr/src/app
-RUN chmod 777 /usr/src/app
+# Set the working directory
+WORKDIR /app
 
-COPY requirements.txt .
-RUN zee_env/bin/pip3.12 install --no-cache-dir -r requirements.txt
+# Copy the current directory contents
+COPY . /app
 
-COPY . .
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["bash", "start.sh"]
+# Expose the correct port
+ENV PORT=5000
+EXPOSE 5000
+
+# Run the bot
+CMD ["python", "app.py"]
